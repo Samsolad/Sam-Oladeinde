@@ -119,11 +119,12 @@ export default function App() {
   }, []);
 
   const go = id => {
-    document.getElementById(id)?.scrollIntoView({ behavior:"smooth" });
+    const target = id === "pillars" ? "ajala" : id;
+    document.getElementById(target)?.scrollIntoView({ behavior:"smooth" });
     setMenu(false);
   };
 
-  const NAV = ["Ecosystem","JOS","Pillars","Sam","Products","Contact"];
+  const NAV = ["Ajala","JOS","Pillars","Sam","Products","Contact"];
   const pillar = PILLARS.find(p => p.id === activePillar);
 
   /* all products flat list for the products section */
@@ -135,24 +136,35 @@ export default function App() {
   return (
     <div style={S.root}>
 
+      {/* ─── BACK TO TOP ─── */}
+      {scrolled && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top:0, behavior:"smooth" })}
+          style={S.backTop}
+          title="Back to top">
+          ↑
+        </button>
+      )}
+
       {/* ─── NAV ─── */}
       <nav style={{ ...S.nav, padding: scrolled?"0.75rem 3rem":"1.15rem 3rem" }}>
         <div style={S.navBrand} onClick={() => go("hero")}>
-          <span style={S.ajala}>Ajala</span>
-          <span style={S.navSub}>by Sam Oladeinde</span>
+          <span style={S.ajalaName}>Sam Oladeinde</span>
+          <span style={S.navSub}>Mr. Sam</span>
         </div>
         <div style={S.navLinks}>
           {NAV.map(n => (
-            <button key={n} onClick={() => go(n.toLowerCase())} style={S.navBtn}>{n}</button>
+            <button type="button" key={n} onClick={() => go(n.toLowerCase())} style={S.navBtn}>{n}</button>
           ))}
         </div>
         <a href="https://soladeinde.gumroad.com" target="_blank" rel="noreferrer" style={S.navCta}>Get Started</a>
-        <button onClick={() => setMenu(!menu)} style={S.burger}>☰</button>
+        <button type="button" onClick={() => setMenu(!menu)} style={S.burger}>☰</button>
       </nav>
       {menu && (
         <div style={S.mobileMenu}>
           {NAV.map(n => (
-            <button key={n} onClick={() => go(n.toLowerCase())} style={S.mobileBtn}>{n}</button>
+            <button type="button" key={n} onClick={() => go(n.toLowerCase())} style={S.mobileBtn}>{n}</button>
           ))}
         </div>
       )}
@@ -170,7 +182,7 @@ export default function App() {
         <div style={S.heroInner}>
           <Reveal>
             <div style={S.provBox}>
-              <div style={S.provYoruba}>"Ẹni tó bá ma gbádùn ìgbésí ayé rẹ̀, kò níí jẹ́ irú ẹni tó ń gbé ìgbésí ayé ẹlòmíràn."</div>
+              <div style={S.provYoruba}>"Ẹni tó bá gbádùn ìgbésí ayé rẹ̀, kò níí jẹ́ irú ẹni tó ń gbé ìgbésí ayé ẹlòmíràn."</div>
               <div style={S.provEng}>He who truly lives his own life will never live the life of another.</div>
               <div style={S.provSrc}>— Yoruba Proverb</div>
             </div>
@@ -202,7 +214,7 @@ export default function App() {
 
           <Reveal delay={0.45}>
             <div style={S.btnRow}>
-              <button onClick={() => go("ecosystem")} style={S.btnGold}>Explore the Ecosystem</button>
+              <button onClick={() => go("ajala")} style={S.btnGold}>Explore Ajala</button>
               <button onClick={() => go("jos")} style={S.btnGhost}>Meet JOS →</button>
             </div>
           </Reveal>
@@ -261,9 +273,9 @@ export default function App() {
       {/* ─────────────────────────────────────
           ECOSYSTEM OVERVIEW
       ───────────────────────────────────── */}
-      <section id="ecosystem" style={S.section}>
+      <section id="ajala" style={S.section}>
         <Reveal>
-          <p style={S.tag}>The Ecosystem</p>
+          <p style={S.tag}>Ajala — The Ecosystem</p>
           <h2 style={S.h2}>Five pillars.<br /><em style={{ color:G }}>One fulfilled life.</em></h2>
           <p style={S.intro}>Named after the legendary Yoruba traveller who moved through the world on his own terms. Ajala is not a product. It's the complete system for the African in the diaspora who refuses to settle for surviving.</p>
         </Reveal>
@@ -271,28 +283,49 @@ export default function App() {
         {/* PILLAR TABS */}
         <div style={S.tabRow}>
           {PILLARS.map(p => (
-            <button key={p.id} onClick={() => setActive(p.id)}
-              style={{ ...S.tab, ...(activePillar===p.id ? { borderColor:p.color, color:p.color, background:p.bg } : {}) }}>
+            <button
+              type="button"
+              key={p.id}
+              onClick={(e) => { e.preventDefault(); setActive(p.id); }}
+              style={{
+                ...S.tab,
+                ...(activePillar === p.id
+                  ? { borderColor:p.color, color:p.color, background:p.bg, fontWeight:600 }
+                  : {})
+              }}>
               <span>{p.icon}</span> {p.label}
             </button>
           ))}
         </div>
 
-        {/* ACTIVE PANEL */}
-        {pillar && (
-          <div style={{ ...S.panel, borderColor:pillar.border, background:`linear-gradient(135deg, ${pillar.bg} 0%, ${D3} 70%)` }}>
+        {/* ALL PANELS — pre-rendered, shown/hidden via CSS */}
+        {PILLARS.map(p => (
+          <div
+            key={p.id}
+            style={{
+              ...S.panel,
+              borderColor: p.border,
+              background: `linear-gradient(135deg, ${p.bg} 0%, ${D3} 70%)`,
+              display: activePillar === p.id ? "flex" : "none",
+            }}>
             <div style={{ flex:"1.2", minWidth:260 }}>
-              <div style={{ ...S.pillarNum, color:pillar.color }}>{pillar.num}</div>
-              <h3 style={{ ...S.pillarTitle, color:pillar.color }}>{pillar.label}</h3>
-              <p style={{ fontFamily:"Georgia,serif", fontSize:"1rem", fontStyle:"italic", color:W, marginBottom:"1rem", lineHeight:1.5 }}>{pillar.tagline}</p>
-              <p style={{ fontSize:"0.88rem", color:M, lineHeight:1.85, marginBottom:"1.5rem" }}>{pillar.desc}</p>
+              <div style={{ ...S.pillarNum, color:p.color }}>{p.num}</div>
+              <h3 style={{ ...S.pillarTitle, color:p.color }}>{p.label}</h3>
+              <p style={{ fontFamily:"Georgia,serif", fontSize:"1rem", fontStyle:"italic", color:W, marginBottom:"1rem", lineHeight:1.5 }}>{p.tagline}</p>
+              <p style={{ fontSize:"0.88rem", color:M, lineHeight:1.85, marginBottom:"1.5rem" }}>{p.desc}</p>
               <div style={{ display:"flex", flexDirection:"column", gap:"0.8rem" }}>
-                {pillar.products.map(pr => (
-                  <div key={pr.name} style={{ ...S.panelProduct, borderLeft:`2px solid ${pillar.color}` }}>
-                    <div style={{ display:"flex", alignItems:"center", gap:"0.6rem", marginBottom:"0.25rem" }}>
+                {p.products.map(pr => (
+                  <div key={pr.name} style={{ ...S.panelProduct, borderLeft:`2px solid ${p.color}` }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:"0.6rem", marginBottom:"0.25rem", flexWrap:"wrap" }}>
                       <span style={{ fontFamily:"Georgia,serif", fontSize:"0.9rem", fontWeight:600, color:W }}>{pr.name}</span>
-                      <span style={{ fontFamily:"monospace", fontSize:"0.55rem", letterSpacing:"0.1em", textTransform:"uppercase", padding:"0.15rem 0.5rem", background: pr.status==="live" ? TB : pr.status==="building" ? GB : BR2, color: pr.status==="live" ? T : pr.status==="building" ? G : M, border:`1px solid ${pr.status==="live" ? "rgba(13,148,136,0.3)" : pr.status==="building" ? GD : BR2}` }}>
-                        {pr.status==="live" ? "● Live" : pr.status==="building" ? "⟳ Building" : "◌ Coming"}
+                      <span style={{
+                        fontFamily:"monospace", fontSize:"0.55rem", letterSpacing:"0.1em",
+                        textTransform:"uppercase", padding:"0.15rem 0.5rem",
+                        background: pr.status==="live" ? TB : pr.status==="building" ? GB : BR2,
+                        color: pr.status==="live" ? T : pr.status==="building" ? G : M,
+                        border:`1px solid ${pr.status==="live" ? "rgba(13,148,136,0.3)" : pr.status==="building" ? GD : BR2}`
+                      }}>
+                        {pr.status==="live" ? "● Live" : pr.status==="building" ? "⟳ Building" : "◌ Coming Soon"}
                       </span>
                     </div>
                     <div style={{ fontSize:"0.78rem", color:M, lineHeight:1.6 }}>{pr.desc}</div>
@@ -300,15 +333,15 @@ export default function App() {
                 ))}
               </div>
             </div>
-            <div style={{ flex:1, minWidth:220, display:"flex", alignItems:"center", justifyContent:"center" }}>
+            <div style={{ flex:1, minWidth:200, display:"flex", alignItems:"center", justifyContent:"center" }}>
               <div style={{ textAlign:"center" }}>
-                <div style={{ fontSize:"5rem", opacity:0.12, marginBottom:"1rem" }}>{pillar.icon}</div>
-                <div style={{ fontFamily:"monospace", fontSize:"0.6rem", letterSpacing:"0.25em", textTransform:"uppercase", color:pillar.color, marginBottom:"0.5rem" }}>Pillar {pillar.num}</div>
-                <div style={{ fontFamily:"Georgia,serif", fontSize:"1.6rem", fontStyle:"italic", color:W, lineHeight:1.3 }}>{pillar.label}</div>
+                <div style={{ fontSize:"5rem", opacity:0.12, marginBottom:"1rem" }}>{p.icon}</div>
+                <div style={{ fontFamily:"monospace", fontSize:"0.6rem", letterSpacing:"0.25em", textTransform:"uppercase", color:p.color, marginBottom:"0.5rem" }}>Pillar {p.num}</div>
+                <div style={{ fontFamily:"Georgia,serif", fontSize:"1.6rem", fontStyle:"italic", color:W, lineHeight:1.3 }}>{p.label}</div>
               </div>
             </div>
           </div>
-        )}
+        ))}
       </section>
 
       <div style={S.divider} />
@@ -469,7 +502,7 @@ export default function App() {
         {/* Filter */}
         <div style={S.filterRow}>
           {FILTER_ITEMS.map(f => (
-            <button key={f.id} onClick={() => setFilter(f.id)}
+            <button type="button" key={f.id} onClick={(e) => { e.preventDefault(); setFilter(f.id); }}
               style={{ ...S.filterBtn, ...(filter===f.id ? { background:GB, color:G, border:`1px solid ${GD}` } : {}) }}>
               {f.label}
             </button>
@@ -628,15 +661,16 @@ export default function App() {
       {/* ─── FOOTER ─── */}
       <footer style={S.footer}>
         <div>
-          <div style={{ fontFamily:"Georgia,serif", fontSize:"1.6rem", fontWeight:700, color:G, letterSpacing:"0.08em" }}>Ajala</div>
-          <div style={{ fontSize:"0.7rem", color:M, marginTop:"0.2rem" }}>by Sam Oladeinde · Systems Builder · Newcastle, UK</div>
+          <div style={{ fontFamily:"Georgia,serif", fontSize:"1.4rem", fontWeight:700, color:W, letterSpacing:"0.02em" }}>Sam Oladeinde</div>
+          <div style={{ fontFamily:"Georgia,serif", fontSize:"1rem", fontWeight:300, color:G, letterSpacing:"0.08em", fontStyle:"italic" }}>Ajala</div>
+          <div style={{ fontSize:"0.7rem", color:M, marginTop:"0.2rem" }}>Systems Builder · Newcastle, UK</div>
         </div>
         <div style={{ textAlign:"center" }}>
           <div style={{ fontFamily:"Georgia,serif", fontSize:"0.8rem", fontStyle:"italic", color:M, marginBottom:"0.3rem", opacity:0.7 }}>"Ẹni tó bá gbádùn ìgbésí ayé rẹ̀, kò níí jẹ́ irú ẹni tó ń gbé ìgbésí ayé ẹlòmíràn."</div>
           <div style={{ fontSize:"0.65rem", color:M, opacity:0.5 }}>© 2025 Sam Oladeinde · J. Ednieds Ltd · Registered in England and Wales</div>
         </div>
         <div style={{ display:"flex", gap:"1.2rem", flexWrap:"wrap", justifyContent:"flex-end" }}>
-          {["Ecosystem","JOS","Pillars","Products","Contact"].map(l => (
+          {["Ajala","JOS","Pillars","Products","Contact"].map(l => (
             <button key={l} onClick={() => go(l.toLowerCase())} style={{ background:"none", border:"none", cursor:"pointer", fontFamily:"monospace", fontSize:"0.58rem", letterSpacing:"0.1em", textTransform:"uppercase", color:M }}>
               {l}
             </button>
@@ -664,15 +698,16 @@ const S = {
   root:{ background:D, color:W, fontFamily:"'DM Sans',sans-serif", fontWeight:300, lineHeight:1.7, minHeight:"100vh", overflowX:"hidden" },
 
   nav:{ position:"sticky", top:0, zIndex:900, display:"flex", alignItems:"center", gap:"1rem", background:"rgba(8,14,12,0.94)", backdropFilter:"blur(20px)", borderBottom:`1px solid ${BR}`, transition:"padding 0.3s" },
-  navBrand:{ display:"flex", alignItems:"baseline", gap:"0.5rem", marginRight:"auto", cursor:"pointer" },
-  ajala:{ fontFamily:"Georgia,serif", fontSize:"1.5rem", fontWeight:700, color:G, letterSpacing:"0.1em" },
-  navSub:{ fontSize:"0.65rem", color:M, fontFamily:"monospace", letterSpacing:"0.05em" },
+  navBrand:{ display:"flex", flexDirection:"column", gap:"0.05rem", marginRight:"auto", cursor:"pointer" },
+  ajalaName:{ fontFamily:"Georgia,serif", fontSize:"1.05rem", fontWeight:700, color:W, letterSpacing:"0.02em", lineHeight:1.2 },
+  navSub:{ fontSize:"0.62rem", color:G, fontFamily:"Georgia,serif", letterSpacing:"0.12em", fontStyle:"italic", lineHeight:1 },
   navLinks:{ display:"flex", gap:"0.15rem" },
   navBtn:{ background:"none", border:"none", cursor:"pointer", fontFamily:"monospace", fontSize:"0.61rem", letterSpacing:"0.12em", textTransform:"uppercase", color:M, padding:"0.4rem 0.6rem" },
   navCta:{ background:G, color:D, border:"none", cursor:"pointer", fontFamily:"monospace", fontSize:"0.61rem", letterSpacing:"0.1em", textTransform:"uppercase", padding:"0.6rem 1.2rem", textDecoration:"none", fontWeight:700, whiteSpace:"nowrap" },
   burger:{ display:"none", background:"none", border:"none", color:W, fontSize:"1.4rem", cursor:"pointer" },
   mobileMenu:{ background:D2, padding:"1.5rem 3rem", display:"flex", flexDirection:"column", gap:"0.8rem", borderBottom:`1px solid ${BR}` },
   mobileBtn:{ background:"none", border:"none", cursor:"pointer", fontFamily:"monospace", fontSize:"0.7rem", letterSpacing:"0.12em", textTransform:"uppercase", color:M, textAlign:"left" },
+  backTop:{ position:"fixed", bottom:"2rem", right:"2rem", zIndex:999, width:44, height:44, borderRadius:"50%", background:G, color:D, border:"none", cursor:"pointer", fontFamily:"Georgia,serif", fontSize:"1.1rem", fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", boxShadow:`0 4px 20px rgba(200,168,75,0.4)`, transition:"transform 0.2s" },
 
   hero:{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", padding:"8rem 3rem 5rem", position:"relative", overflow:"hidden" },
   heroGlow:{ position:"absolute", inset:0, background:`radial-gradient(ellipse 65% 50% at 55% 38%, rgba(200,168,75,0.07) 0%, transparent 65%), radial-gradient(ellipse 40% 40% at 18% 72%, rgba(13,148,136,0.05) 0%, transparent 60%)`, pointerEvents:"none" },
