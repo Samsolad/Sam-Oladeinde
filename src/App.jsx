@@ -16,15 +16,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 import {
   BOOKS,
+  COMMUNITY_JOURNEY,
   CONTACT_LINKS,
   ECOSYSTEM_NAME,
   FEATURES,
   FILTER_ITEMS,
+  HERO_STATS,
   JOS_CAPABILITIES,
   JOS_MESSAGES,
   NAV_ITEMS,
   PILLARS,
   PROBLEM_CARDS,
+  SAM_BADGES,
+  SAM_STATS,
+  SAM_STORY,
   VISION_ITEMS,
   statusBadgeVariant,
   statusLabel,
@@ -160,19 +165,19 @@ export default function App() {
           <div className="animate-fade-in-up">
             <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary font-serif italic">
-                Ẹni tó bá gbádùn ìgbésí ayé rẹ̀…
+              <span className="text-sm font-medium text-primary font-serif">
+                Community builder since secondary school
               </span>
             </div>
 
             <h1 className="text-5xl md:text-6xl font-display mb-6 leading-tight">
-              You didn&apos;t cross an ocean to live
-              <span className="block text-primary">someone else&apos;s life.</span>
+              I gather people.
+              <span className="block text-primary">Then I build what helps them stay together.</span>
             </h1>
 
             <p className="text-lg text-foreground/70 mb-8 max-w-lg leading-relaxed font-serif">
-              {ECOSYSTEM_NAME} is the complete ecosystem for Africans in the diaspora who want control of their time,
-              freedom in their lifestyle, and a life built entirely on their own terms.
+              From street games with classmates to a wellness community of thousands — community building is the
+              thread through everything. {ECOSYSTEM_NAME} is the diaspora infrastructure that thread became.
             </p>
 
             <div className="flex flex-wrap gap-2 mb-8">
@@ -191,18 +196,13 @@ export default function App() {
               <Button size="lg" className="gap-2" onClick={() => scrollTo('uncle-sam')}>
                 Explore {ECOSYSTEM_NAME} <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button variant="outline" size="lg" onClick={() => scrollTo('jos')}>
-                Meet JOS →
+              <Button variant="outline" size="lg" onClick={() => scrollTo('community-story')}>
+                My community story →
               </Button>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-border/60">
-              {[
-                ['5', 'Ecosystem Pillars'],
-                ['11', 'Products & Platforms'],
-                ['3', 'Live Right Now'],
-                ['£4K', 'Monthly Freedom Path'],
-              ].map(([n, l]) => (
+              {HERO_STATS.map(([n, l]) => (
                 <div key={l} className="text-center">
                   <div className="text-2xl font-display text-primary">{n}</div>
                   <div className="text-xs text-muted-foreground mt-1">{l}</div>
@@ -265,8 +265,65 @@ export default function App() {
         </div>
       </section>
 
+      {/* Community story timeline */}
+      <section id="community-story" className="py-20 md:py-32">
+        <div className="container">
+          <Reveal>
+            <SectionTag>My Story · Community First</SectionTag>
+            <SectionHeading>
+              {SAM_STORY.headline}
+              <br />
+              <span className="text-primary">{SAM_STORY.headlineAccent}</span>
+            </SectionHeading>
+            <blockquote className="border-l-2 border-primary pl-4 my-6 max-w-3xl font-serif italic text-lg text-primary/90 leading-relaxed">
+              {SAM_STORY.pullQuote}
+            </blockquote>
+          </Reveal>
+
+          <div className="max-w-3xl mx-auto space-y-6">
+            {COMMUNITY_JOURNEY.map((chapter, i) => (
+              <Reveal key={chapter.title} delay={i * 0.08}>
+                <Card
+                  className={`border-l-4 border-l-primary/50 ${
+                    chapter.highlight ? 'border-primary/40 bg-primary/5 shadow-md' : 'hover:border-primary/30'
+                  }`}
+                >
+                  <CardContent className="p-6 md:p-8">
+                    <div className="flex items-start gap-4 mb-3">
+                      <span className="text-3xl shrink-0">{chapter.icon}</span>
+                      <div>
+                        <p className="text-xs uppercase tracking-widest text-primary mb-1">{chapter.era}</p>
+                        <h3 className="font-display text-xl">{chapter.title}</h3>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground font-serif leading-relaxed pl-12 md:pl-14">
+                      {chapter.desc}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal className="mt-12">
+            <Card className="border-dashed border-primary/30 bg-muted/30">
+              <CardContent className="p-8 text-center">
+                <p className="font-display text-lg mb-2">More chapters on the way</p>
+                <p className="text-sm text-muted-foreground font-serif max-w-xl mx-auto mb-4">
+                  This timeline is the beginning — there are more community stories to tell. If you were part of
+                  the street leagues, the wellness group, or a diaspora community Sam built with, get in touch.
+                </p>
+                <Button variant="outline" onClick={() => scrollTo('contact')}>
+                  Share your story
+                </Button>
+              </CardContent>
+            </Card>
+          </Reveal>
+        </div>
+      </section>
+
       {/* Uncle Sam Ecosystem */}
-      <section id="uncle-sam" className="py-20 md:py-32">
+      <section id="uncle-sam" className="py-20 md:py-32 bg-card">
         <div className="container">
           <Reveal>
             <SectionTag>{ECOSYSTEM_NAME} — The Ecosystem</SectionTag>
@@ -276,8 +333,9 @@ export default function App() {
               <span className="text-primary">One fulfilled life.</span>
             </SectionHeading>
             <p className="text-lg text-foreground/60 max-w-2xl font-serif mb-10">
-              Built by someone who&apos;s been five years ahead on the same road. {ECOSYSTEM_NAME} is the complete
-              system for the African in the diaspora who refuses to settle for surviving.
+              Every pillar exists because communities need more than good intentions — they need books, software,
+              wealth tools, and culture that holds. {ECOSYSTEM_NAME} packages what one community builder learned
+              from the street, to 10,000 people, to the diaspora.
             </p>
           </Reveal>
 
@@ -461,7 +519,7 @@ export default function App() {
                 )}
               </div>
               <div className="flex flex-wrap gap-2 mt-4">
-                {['Systems Builder', 'Author', 'YouTuber', 'Founder'].map((b) => (
+                {SAM_BADGES.map((b) => (
                   <Badge key={b} variant="default">{b}</Badge>
                 ))}
               </div>
@@ -469,39 +527,30 @@ export default function App() {
 
             <div>
               <Reveal>
-                <SectionTag>The Person Behind {ECOSYSTEM_NAME}</SectionTag>
+                <SectionTag>Sam Oladeinde</SectionTag>
                 <SectionHeading>
-                  I built {ECOSYSTEM_NAME}
+                  {SAM_STORY.headline}
                   <br />
-                  <span className="text-primary">because I needed it first.</span>
+                  <span className="text-primary">{SAM_STORY.headlineAccent}</span>
                 </SectionHeading>
                 <blockquote className="border-l-2 border-primary pl-4 my-6 font-serif italic text-primary">
-                  I&apos;m not a distant guru. I&apos;m a fellow traveller — five years ahead of you on the same road.
+                  {SAM_STORY.pullQuote}
                 </blockquote>
               </Reveal>
-              <Reveal delay={0.1}>
-                <p className="text-muted-foreground font-serif leading-relaxed mb-4">
-                  I moved from Nigeria to the UK less than 5 years ago. Qualifications, experience, ambition —
-                  and still felt like zero. The UK has unwritten rules nobody hands you at the airport. So I
-                  started asking people who&apos;d already figured it out.
-                </p>
-                <p className="text-muted-foreground font-serif leading-relaxed mb-4">
-                  I interviewed 10+ African immigrants who rebuilt from scratch. Those conversations became
-                  books. I saw my church coordinate transport over WhatsApp, spotted the GDPR risk, and built
-                  software to fix it.
-                </p>
-                <p className="text-primary font-serif italic leading-relaxed mb-8">
-                  Every product in {ECOSYSTEM_NAME} started with a problem I witnessed. Every solution exists because it didn&apos;t.
-                </p>
+              {SAM_STORY.paragraphs.map((para, i) => (
+                <Reveal key={i} delay={0.05 + i * 0.05}>
+                  <p className="text-muted-foreground font-serif leading-relaxed mb-4">{para}</p>
+                </Reveal>
+              ))}
+              <Reveal delay={0.25}>
+                <p className="text-primary font-serif italic leading-relaxed mb-8">{SAM_STORY.closing}</p>
+                <Button variant="outline" className="mb-8" onClick={() => scrollTo('community-story')}>
+                  Read the full timeline <ArrowRight className="w-4 h-4" />
+                </Button>
               </Reveal>
-              <Reveal delay={0.15}>
+              <Reveal delay={0.3}>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-border">
-                  {[
-                    ['Nigeria', 'Origin'],
-                    ['Newcastle', 'Base'],
-                    ['<5yrs', 'In the UK'],
-                    ['5 Pillars', 'Building'],
-                  ].map(([n, l]) => (
+                  {SAM_STATS.map(([n, l]) => (
                     <div key={l}>
                       <div className="text-xl font-display text-primary">{n}</div>
                       <div className="text-xs text-muted-foreground">{l}</div>
@@ -616,9 +665,10 @@ export default function App() {
           <Reveal>
             <div className="text-center mb-16">
               <SectionTag>Why {ECOSYSTEM_NAME}</SectionTag>
-              <SectionHeading>Built for the diaspora journey</SectionHeading>
+              <SectionHeading>Community-first infrastructure</SectionHeading>
               <p className="text-lg text-foreground/60 max-w-2xl mx-auto font-serif">
-                Modern infrastructure with timeless design principles — for Africans building lives on their own terms.
+                Tools and knowledge for people who gather others — whether you started in a schoolyard, a street
+                league, or a diaspora church hall.
               </p>
             </div>
           </Reveal>
@@ -795,11 +845,11 @@ export default function App() {
                 <span className="font-display text-primary">{ECOSYSTEM_NAME}</span>
               </div>
               <p className="text-sm text-muted-foreground font-serif">
-                The complete ecosystem for Africans in the diaspora building lives on their own terms.
+                Community building at street scale — and diaspora scale. From secondary school to {ECOSYSTEM_NAME}.
               </p>
             </div>
             {[
-              { title: 'Ecosystem', links: [{ label: ECOSYSTEM_NAME, id: 'uncle-sam' }, { label: 'JOS', id: 'jos' }, { label: 'Products', id: 'products' }, { label: 'Books', id: 'books' }] },
+              { title: 'Ecosystem', links: [{ label: ECOSYSTEM_NAME, id: 'uncle-sam' }, { label: 'My Story', id: 'community-story' }, { label: 'JOS', id: 'jos' }, { label: 'Products', id: 'products' }, { label: 'Books', id: 'books' }] },
               { title: 'Connect', links: ['Contact', 'Gumroad', 'YouTube', 'Transport Team'] },
               { title: 'Legal', links: ['Privacy', 'Terms', 'License'] },
             ].map((col) => (

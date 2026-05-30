@@ -77,18 +77,83 @@ export const FILTER_ITEMS = [
 
 export const NAV_ITEMS = [
   { label: 'Uncle Sam', id: 'uncle-sam' },
+  { label: 'My Story', id: 'community-story' },
   { label: 'JOS', id: 'jos' },
   { label: 'Pillars', id: 'uncle-sam' },
-  { label: 'Sam', id: 'sam' },
   { label: 'Products', id: 'products' },
   { label: 'Contact', id: 'contact' },
 ]
 
 export const ECOSYSTEM_NAME = 'Uncle Sam'
 
+export const HERO_STATS = [
+  ['10k+', 'Community members (pre-COVID)'],
+  ['Since school', 'Building together'],
+  ['5', 'Ecosystem pillars'],
+  ['11', 'Products & platforms'],
+]
+
+export const SAM_BADGES = [
+  'Community Builder',
+  'Systems Builder',
+  'Author',
+  'Founder',
+]
+
+/** Timeline of community-building — add more chapters as you share them */
+export const COMMUNITY_JOURNEY = [
+  {
+    era: 'Secondary school',
+    title: 'Mini street games, one idea',
+    desc: 'I brought together a group of students for mini street games competitions — nothing fancy, just neighbours and classmates finding a reason to show up. That small spark became something people looked forward to.',
+    icon: '⚽',
+  },
+  {
+    era: 'Growing through the streets',
+    title: 'Competitions that spread block by block',
+    desc: 'What we started became a regular competition. More streets joined. New faces, new teams, the same simple formula: show up, play, belong. I learned early that community doesn\'t need permission — it needs a first invite.',
+    icon: '🏘️',
+  },
+  {
+    era: 'Wellness & belonging',
+    title: 'A group that grew to ~10,000 people',
+    desc: 'Years later I built a community wellness group focused on health, connection, and showing up for each other. It grew to roughly 10,000 people before COVID-19 hit — proof that the instinct from those street games still worked at scale.',
+    icon: '💚',
+  },
+  {
+    era: 'Diaspora & today',
+    title: 'Infrastructure for communities that scale',
+    desc: 'From Nigeria to the UK, I kept seeing the same gap: people want community, but the tools are WhatsApp chaos, paper registers, and good intentions with no structure. Uncle Sam is me building the systems I wish every diaspora community already had.',
+    icon: '🌍',
+    highlight: true,
+  },
+]
+
+export const SAM_STORY = {
+  headline: 'I\'ve been building community since secondary school.',
+  headlineAccent: 'Uncle Sam is what that instinct grew into.',
+  pullQuote:
+    'It started with students and street games. It became regular competitions across neighbourhoods. Then a wellness community of thousands. Every product I build today still answers the same question: how do we gather well?',
+  paragraphs: [
+    'In secondary school I didn\'t set out to be a "community leader." I just saw friends who needed something to do together. We organised mini street games competitions — and people came. Then they came back. Then other streets wanted in.',
+    'That pattern never left me. Gather people around something simple and real. Make it repeatable. Let it spread without forcing it. Those street leagues taught me more about leadership than any job title ever could.',
+    'Later I poured that same energy into wellness — a community group built around showing up for each other\'s health and wellbeing. Before COVID-19, it had grown to about 10,000 people. The pandemic changed how we met, but it didn\'t change why community matters.',
+    'When I moved to the UK, I felt the diaspora version of the same problem: brilliant people, thin infrastructure. Churches coordinating transport on WhatsApp. No safe systems. No scale. So I started building — books, platforms, tools — always rooted in the same origin story.',
+  ],
+  closing:
+    'Uncle Sam isn\'t a rebrand. It\'s the grown-up version of a kid who learned that belonging is built, street by street, then scaled with care.',
+}
+
+export const SAM_STATS = [
+  ['10k+', 'Wellness community'],
+  ['Since school', 'Community builder'],
+  ['Nigeria → UK', 'Two-world life'],
+  ['5', 'Pillars today'],
+]
+
 export const PROBLEM_CARDS = [
   { icon: '💼', title: 'Career Gap', desc: 'The UK hiring system wasn\'t built to read your credentials. The unwritten rules exist — nobody explains them.' },
-  { icon: '🏘️', title: 'No Community', desc: 'The village you grew up in doesn\'t exist here. You\'re building your network from absolute zero.' },
+  { icon: '🏘️', title: 'Community Without Structure', desc: 'You know how to gather people — but diaspora life runs on WhatsApp threads, not systems. Good community needs better infrastructure.' },
   { icon: '💷', title: 'Wealth Locked Out', desc: 'Property, investment, financial systems — all designed for people already inside them.' },
   { icon: '🌱', title: 'Root Disconnect', desc: 'Thriving here shouldn\'t mean losing who you are. But nobody built the bridge between both worlds.' },
 ]
@@ -136,7 +201,7 @@ export const VISION_ITEMS = [
 ]
 
 export const CONTACT_LINKS = [
-  { icon: '✉️', label: 'Email', val: '52weeksukblueprint@gmail.com', href: 'mailto:52weeksukblueprint@gmail.com' },
+  { icon: '✉️', label: 'Email', val: 'sam@jednieds.com', href: 'mailto:sam@jednieds.com' },
   { icon: '🛍️', label: 'Gumroad Store', val: 'soladeinde.gumroad.com', href: 'https://soladeinde.gumroad.com' },
   { icon: '🚌', label: 'Transport Team', val: 'transportteam.app', href: 'https://transportteam.app' },
   { icon: '📊', label: 'PresenceIQ', val: 'presenceiq.app', href: 'https://presenceiq.app' },
